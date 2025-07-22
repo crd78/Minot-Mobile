@@ -1,7 +1,6 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
-using System.Linq;
-using ZXing.Net.Maui;
+using QrCodeScanner; // Import de votre bibliothèque
 
 namespace MauiApp1
 {
@@ -12,62 +11,54 @@ namespace MauiApp1
         public NouvelleLivraison()
         {
             InitializeComponent();
-            RequestCameraPermission();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            // Démarrer la caméra quand la page apparaît
-            if (barcodeReader != null)
-            {
-                barcodeReader.IsDetecting = true;
-            }
+            // Lancer automatiquement le scan quand la page apparaît
+            await StartScan();
         }
 
-        protected override void OnDisappearing()
+        private async Task StartScan()
         {
-            base.OnDisappearing();
-
-            // Arrêter la caméra quand la page disparaît
-            if (barcodeReader != null)
+            try
             {
-                barcodeReader.IsDetecting = false;
-            }
-        }
-
-        private async void RequestCameraPermission()
-        {
-            var status = await Permissions.RequestAsync<Permissions.Camera>();
-            if (status != PermissionStatus.Granted)
-            {
-                await DisplayAlert("Permission refusée",
-                    "L'accès à la caméra est requis pour scanner les codes-barres.", "OK");
-                await Shell.Current.GoToAsync("..");
-            }
-        }
-
-        private void OnBarcodesDetected(object sender, BarcodeDetectionEventArgs e)
-        {
-            var code = e.Results.FirstOrDefault()?.Value;
-            if (!string.IsNullOrEmpty(code))
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
+                // Vérifier les permissions caméra
+                var status = await Permissions.RequestAsync<Permissions.Camera>();
+                if (status != PermissionStatus.Granted)
                 {
-                    _scannedCode = code;
+                    await DisplayAlert("Permission refusée",
+                        "L'accès à la caméra est requis pour scanner les codes-barres.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                    return;
+                }
 
-                    // Arrêter la détection
-                    barcodeReader.IsDetecting = false;
+                // Utiliser votre bibliothèque de scan
+                var result = await BarcodeScannerUtil.ScanAsync(Navigation);
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    _scannedCode = result;
 
                     // Afficher le résultat
-                    ResultLabel.Text = code;
+                    ResultLabel.Text = result;
                     ResultFrame.IsVisible = true;
                     ValidateButton.IsEnabled = true;
 
-                    // Feedback visuel/sonore optionnel
-                    DisplayAlert("Code détecté", $"Code scanné : {code}", "OK");
-                });
+                    await DisplayAlert("Code détecté", $"Code scanné : {result}", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Scan annulé", "Aucun code détecté", "OK");
+                    await Shell.Current.GoToAsync("..");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur",
+                    $"Erreur lors du scan : {ex.Message}", "OK");
+                await Shell.Current.GoToAsync("..");
             }
         }
 
@@ -76,29 +67,25 @@ namespace MauiApp1
             await Shell.Current.GoToAsync("..");
         }
 
-        private void OnRestartClicked(object sender, EventArgs e)
+        private async void OnRestartClicked(object sender, EventArgs e)
         {
             // Recommencer le scan
             _scannedCode = null;
             ResultFrame.IsVisible = false;
             ValidateButton.IsEnabled = false;
-            barcodeReader.IsDetecting = true;
+            await StartScan();
         }
 
         private async void OnValidateClicked(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(_scannedCode))
             {
-                // Ici tu peux traiter le code scanné
-                // Par exemple, l'envoyer à une API ou naviguer vers une autre page
-
                 var result = await DisplayAlert("Validation",
                     $"Voulez-vous valider ce code ?\n{_scannedCode}",
                     "Oui", "Non");
 
                 if (result)
                 {
-                    // Traitement du code validé
                     await ProcessScannedCode(_scannedCode);
                 }
             }

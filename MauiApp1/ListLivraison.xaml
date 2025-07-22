@@ -44,17 +44,19 @@
         </Frame>
 
         <!-- Bouton Nouvelle Livraison -->
+        <!-- Bouton Nouvelle Livraison -->
         <Button Grid.Row="1"
-                Text="+ Nouvelle Livraison"
-                BackgroundColor="#63518A"
-                TextColor="White"
-                FontAttributes="Bold"
-                FontSize="16"
-                CornerRadius="25"
-                HeightRequest="50"
-                WidthRequest="280"
-                HorizontalOptions="Center"
-                Margin="20,30,20,20"/>
+            Text="+ Nouvelle Livraison"
+            BackgroundColor="#63518A"
+            TextColor="White"
+            FontAttributes="Bold"
+            FontSize="16"
+            CornerRadius="25"
+            HeightRequest="50"
+            WidthRequest="280"
+            HorizontalOptions="Center"
+            Margin="20,30,20,20"
+            Clicked="OnNouvellelivraisonClicked"/>
 
         <!-- Titre section -->
         <Label Grid.Row="2"

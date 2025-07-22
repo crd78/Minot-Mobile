@@ -25,5 +25,9 @@ namespace MauiApp1
 
             await _viewModel.LoadLivraisonsAsync(_httpClient);
         }
+        private async void OnNouvellelivraisonClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("nouvelleLivraison");
+        }
     }
 }
