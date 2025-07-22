@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.MainPage"
+             BackgroundColor="White">
+
+    <VerticalStackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Spacing="80">
+
+        <Label
+            Text="Minot’scan"
+            FontSize="48"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            TextColor="Black" />
+
+        <Button
+            Text="Se Connecter"
+            BackgroundColor="#63518A"
+            TextColor="White"
+            CornerRadius="40"
+            WidthRequest="250"
+            HeightRequest="60"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Clicked="OnConnexionButtonClicked" />
+    </VerticalStackLayout>
+</ContentPage>
