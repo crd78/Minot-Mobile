@@ -6,7 +6,7 @@
         {
             InitializeComponent();
             Routing.RegisterRoute("connexion", typeof(Connexion));
-        
+            Routing.RegisterRoute("listLivraison", typeof(ListLivraison));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MauiApp1.Models;
 using MinotMobile.Services;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 namespace MauiApp1
 {
@@ -42,7 +43,11 @@ namespace MauiApp1
 
                 if (response != null && !string.IsNullOrEmpty(response.Access))
                 {
+                    // Stockage sécurisé du token
+                    await SecureStorage.SetAsync("auth_token", response.Access);
+
                     await Application.Current.MainPage.DisplayAlert("Succès", "Connexion réussie", "OK");
+                    await Shell.Current.GoToAsync("listLivraison");
                 }
                 else
                 {

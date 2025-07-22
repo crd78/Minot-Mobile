@@ -69,6 +69,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="ListLivraison.xaml.cs">
+	    <DependentUpon>ListLivraison.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ListLivraison.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Connexion.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

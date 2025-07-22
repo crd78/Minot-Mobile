@@ -20,10 +20,11 @@
                 Padding="0"
                 HasShadow="False"
                 HorizontalOptions="Center">
-                <Image Source="dog.png"
+                <Image Source="avatar.png"
                        Aspect="AspectFill"
                        WidthRequest="180"
                        HeightRequest="180"/>
+                
             </Frame>
 
             <!-- Titre -->
