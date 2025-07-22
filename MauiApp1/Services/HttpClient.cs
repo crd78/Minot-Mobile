@@ -19,6 +19,12 @@ namespace MinotMobile.Services
                 BaseAddress = new Uri(baseUrl)
             };
         }
+        // Ajoute le token dans le header Authorization
+        public void SetAuthorizationHeader(string token)
+        {
+            _client.DefaultRequestHeaders.Remove("Authorization");
+            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        }
 
         // GET : récupère et désérialise la réponse
         public async Task<T?> GetAsync<T>(string endpoint)
