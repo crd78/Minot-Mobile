@@ -21,6 +21,9 @@ namespace MauiApp1.Models
 
         [JsonPropertyName("user")]
         public UserInfo User { get; set; } = new UserInfo();
+
+        [JsonPropertyName("role")]
+        public int Role { get; set; }
     }
 
     public class UserInfo

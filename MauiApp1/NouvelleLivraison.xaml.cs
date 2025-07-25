@@ -1,6 +1,12 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
-using QrCodeScanner; // Import de votre bibliothèque
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using MauiApp1.Models;
+using MauiApp1.Helper;
+using MinotMobile.Services; // Assurez-vous que le bon namespace est utilisé
+using ZXing.Net.Maui;
 
 namespace MauiApp1
 {
@@ -11,55 +17,65 @@ namespace MauiApp1
         public NouvelleLivraison()
         {
             InitializeComponent();
+            cameraView.Options = new BarcodeReaderOptions
+            {
+                Formats = BarcodeFormat.QrCode, // On se concentre sur les QR Codes
+                AutoRotate = true,
+                Multiple = false
+            };
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            // Lancer automatiquement le scan quand la page apparaît
             await StartScan();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            // S'assurer que la caméra est bien arrêtée
+            if (cameraView.IsDetecting)
+            {
+                cameraView.IsDetecting = false;
+            }
         }
 
         private async Task StartScan()
         {
-            try
+            var status = await Permissions.RequestAsync<Permissions.Camera>();
+            if (status != PermissionStatus.Granted)
             {
-                // Vérifier les permissions caméra
-                var status = await Permissions.RequestAsync<Permissions.Camera>();
-                if (status != PermissionStatus.Granted)
+                await DisplayAlert("Permission refusée", "L'accès à la caméra est requis pour scanner.", "OK");
+                await Shell.Current.GoToAsync("..");
+                return;
+            }
+
+            // Ne touche pas à MainContent.IsVisible !
+            cameraView.IsVisible = true;
+            cameraView.IsDetecting = true;
+        }
+
+        private void OnBarcodesDetected(object sender, BarcodeDetectionEventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                cameraView.IsDetecting = false;
+                cameraView.IsVisible = false;
+
+                var result = e.Results.FirstOrDefault()?.Value;
+                if (string.IsNullOrEmpty(result))
                 {
-                    await DisplayAlert("Permission refusée",
-                        "L'accès à la caméra est requis pour scanner les codes-barres.", "OK");
-                    await Shell.Current.GoToAsync("..");
                     return;
                 }
 
-                // Utiliser votre bibliothèque de scan
-                var result = await BarcodeScannerUtil.ScanAsync(Navigation);
+                _scannedCode = result;
+                ResultLabel.Text = result;
+                ResultFrame.IsVisible = true;
+                ValidateButton.IsEnabled = true;
 
-                if (!string.IsNullOrEmpty(result))
-                {
-                    _scannedCode = result;
-
-                    // Afficher le résultat
-                    ResultLabel.Text = result;
-                    ResultFrame.IsVisible = true;
-                    ValidateButton.IsEnabled = true;
-
-                    await DisplayAlert("Code détecté", $"Code scanné : {result}", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Scan annulé", "Aucun code détecté", "OK");
-                    await Shell.Current.GoToAsync("..");
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Erreur",
-                    $"Erreur lors du scan : {ex.Message}", "OK");
-                await Shell.Current.GoToAsync("..");
-            }
+                await DisplayAlert("Code détecté", $"Code scanné : {result}", "OK");
+            });
         }
 
         private async void OnBackClicked(object sender, EventArgs e)
@@ -69,7 +85,6 @@ namespace MauiApp1
 
         private async void OnRestartClicked(object sender, EventArgs e)
         {
-            // Recommencer le scan
             _scannedCode = null;
             ResultFrame.IsVisible = false;
             ValidateButton.IsEnabled = false;
@@ -87,7 +102,9 @@ namespace MauiApp1
                 if (result)
                 {
                     await ProcessScannedCode(_scannedCode);
+                    await DisplayAlert("berk", "Code validé avec succès !", "OK");
                 }
+                else {                    await DisplayAlert("Annulé", "Validation annulée.", "OK"); }
             }
         }
 
@@ -95,19 +112,46 @@ namespace MauiApp1
         {
             try
             {
-                // Ici tu peux ajouter la logique pour traiter le code scanné
-                // Par exemple : appel API, sauvegarde, etc.
+                Console.WriteLine($"[DEBUG] Début ProcessScannedCode avec code : {code}");
 
-                await DisplayAlert("Succès",
-                    $"Code traité avec succès : {code}", "OK");
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (string.IsNullOrEmpty(token))
+                {
+                    await DisplayAlert("Erreur", "Session expirée. Veuillez vous reconnecter.", "OK");
+                    await Shell.Current.GoToAsync("///Connexion");
+                    return;
+                }
 
-                // Retourner à la page précédente
+                var httpClient = new HttpClientService(ApiHelper.BaseUrl);
+                httpClient.SetAuthorizationHeader(token);
+
+                Console.WriteLine($"[DEBUG] Appel API GET /api/livraisons/{code}");
+                var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}");
+
+                // Affiche le JSON brut reçu
+                await DisplayAlert("Debug", $"Réponse JSON brute : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}", "OK");
+                Console.WriteLine($"[DEBUG] JSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
+
+                if (livraison == null)
+                {
+                    await DisplayAlert("Erreur", $"Aucune livraison trouvée pour l'ID : {code}", "OK");
+                    Console.WriteLine("[DEBUG] livraison == null");
+                    return;
+                }
+
+                string details = $"Livraison #{livraison.IdLivraison}\n" +
+                                 $"Statut : {livraison.StatutText}\n" +
+                                 $"Entreprise : {livraison.NomEntreprise}\n" +
+                                 $"Date prévue : {livraison.DatePrevue:dd/MM/yyyy}";
+                await DisplayAlert("Détails livraison", details, "OK");
+
+                Console.WriteLine("[DEBUG] Fin ProcessScannedCode, navigation vers ..");
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Erreur",
-                    $"Erreur lors du traitement : {ex.Message}", "OK");
+                await DisplayAlert("Erreur", $"Erreur lors du traitement : {ex.Message}", "OK");
+                Console.WriteLine($"[DEBUG] Exception : {ex}");
             }
         }
     }

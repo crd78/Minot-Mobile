@@ -40,6 +40,9 @@ namespace MinotMobile.Services
 
             var response = await _client.PostAsJsonAsync(endpoint, data);
 
+            // Ajouter le code de statut dans les logs
+            Console.WriteLine($"[HTTP POST] Code de statut: {(int)response.StatusCode} {response.StatusCode}");
+
             var jsonRecu = await response.Content.ReadAsStringAsync();
             LastJsonRecu = jsonRecu; // Stocke le JSON reçu
 

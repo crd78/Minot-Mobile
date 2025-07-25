@@ -1,5 +1,6 @@
 ﻿using MauiApp1.Models;
 using MinotMobile.Services;
+using MauiApp1.Helper; // Assurez-vous que le bon namespace est utilisé
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 
@@ -19,7 +20,6 @@ namespace MauiApp1
         {
             try
             {
-                // Vérification des entrées
                 if (string.IsNullOrEmpty(EmailEntry.Text) || string.IsNullOrEmpty(PasswordEntry.Text))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erreur", "Veuillez remplir tous les champs", "OK");
@@ -35,15 +35,21 @@ namespace MauiApp1
                     Password = password
                 };
 
-                // Afficher un indicateur de chargement
                 IsBusy = true;
 
                 string endpoint = "api/client/connexion";
                 var response = await _httpClient.PostAsync<LoginRequest, LoginResponse>(endpoint, loginRequest);
 
+                // Vérification du rôle
                 if (response != null && !string.IsNullOrEmpty(response.Access))
                 {
-                    // Stockage sécurisé du token
+                    // Vérifie le rôle (adapte le nom de la propriété si besoin)
+                    if (response.Role == 4)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Permission refusée", "Vous n'avez pas les droits pour accéder à cette application.", "OK");
+                        return;
+                    }
+
                     await SecureStorage.SetAsync("auth_token", response.Access);
 
                     await Application.Current.MainPage.DisplayAlert("Succès", "Connexion réussie", "OK");
@@ -53,17 +59,10 @@ namespace MauiApp1
                 {
                     string urlFinale = new Uri(new Uri(ApiHelper.BaseUrl), endpoint).ToString();
                     string errorMessage = $"Échec de la connexion :\nURL appelée : {urlFinale}\n";
-
-                    // Ajoute les logs JSON envoyés/reçus
                     errorMessage += $"\nJSON envoyé : {System.Text.Json.JsonSerializer.Serialize(loginRequest)}";
-
-                    // Pour le JSON reçu, tu peux le récupérer dans HttpClientService et le stocker dans une propriété statique temporaire
                     errorMessage += $"\nJSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "Non disponible"}";
-
                     if (response == null)
                         errorMessage += "\nAucune réponse du serveur";
-                    
-                      
 
                     await Application.Current.MainPage.DisplayAlert("Erreur", errorMessage, "OK");
                     Console.WriteLine($"Erreur de connexion: {errorMessage}");
