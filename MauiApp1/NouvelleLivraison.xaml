@@ -3,28 +3,89 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              x:Class="MauiApp1.NouvelleLivraison"
-             Title="Nouvelle Livraison">
+             Title="Nouvelle Livraison"
+             BackgroundColor="#F5F5F5">
     <Grid>
-        <!-- Overlay principal -->
-        <StackLayout x:Name="MainContent" Padding="20" Spacing="15" VerticalOptions="Center">
-            <Label Text="Résultat du Scan" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
-            <Frame x:Name="ResultFrame" IsVisible="False" Padding="15" CornerRadius="10" BorderColor="LightGray" HasShadow="True">
-                <Label x:Name="ResultLabel" FontSize="16" HorizontalOptions="Center" />
-            </Frame>
-            <Button x:Name="ValidateButton" Text="Valider le code" IsEnabled="False" Clicked="OnValidateClicked" HorizontalOptions="Fill" />
-            <Button x:Name="RestartButton" Text="Recommencer le scan" Clicked="OnRestartClicked" HorizontalOptions="Fill" />
-            <Button x:Name="BackButton" Text="Retour" Clicked="OnBackClicked" HorizontalOptions="Fill" BackgroundColor="Transparent" TextColor="Gray" BorderColor="Transparent"/>
-        </StackLayout>
+        <!-- Overlay semi-transparent pour le fond -->
+        <BoxView Color="#80000000" />
 
-        <!-- Caméra dans un carré centré -->
-        <zxing:CameraBarcodeReaderView
-            x:Name="cameraView"
-            IsVisible="True"
-            BarcodesDetected="OnBarcodesDetected"
-            WidthRequest="300"
-            HeightRequest="300"
+        <!-- Caméra dans un carré stylisé et centré -->
+        <Frame
+            Padding="0"
+            CornerRadius="20"
+            BorderColor="#2196F3"
+            HasShadow="True"
+            WidthRequest="260"
+            HeightRequest="260"
             HorizontalOptions="Center"
             VerticalOptions="Center"
-            BackgroundColor="Black" />
+            BackgroundColor="Black">
+            <zxing:CameraBarcodeReaderView
+                x:Name="cameraView"
+                IsVisible="True"
+                BarcodesDetected="OnBarcodesDetected"
+                WidthRequest="240"
+                HeightRequest="240"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                BackgroundColor="Black" />
+        </Frame>
+
+        <!-- Overlay principal (boutons et résultat) -->
+        <StackLayout x:Name="MainContent"
+                     Padding="30,40"
+                     Spacing="20"
+                     VerticalOptions="End"
+                     BackgroundColor="#00000000">
+            <Label Text="Nouvelle Livraison"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#2196F3"
+                   HorizontalOptions="Center" />
+
+            <Frame x:Name="ResultFrame"
+                   IsVisible="False"
+                   Padding="15"
+                   CornerRadius="12"
+                   BorderColor="#2196F3"
+                   HasShadow="True"
+                   BackgroundColor="#E3F2FD"
+                   HorizontalOptions="Center">
+                <Label x:Name="ResultLabel"
+                       FontSize="18"
+                       TextColor="#1565C0"
+                       HorizontalOptions="Center" />
+            </Frame>
+
+            <Button x:Name="ValidateButton"
+                    Text="Valider le code"
+                    IsEnabled="False"
+                    Clicked="OnValidateClicked"
+                    HorizontalOptions="Fill"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    HeightRequest="48" />
+
+            <Button x:Name="RestartButton"
+                    Text="Recommencer le scan"
+                    Clicked="OnRestartClicked"
+                    HorizontalOptions="Fill"
+                    BackgroundColor="#E3F2FD"
+                    TextColor="#2196F3"
+                    CornerRadius="10"
+                    HeightRequest="44" />
+
+            <Button x:Name="BackButton"
+                    Text="Retour"
+                    Clicked="OnBackClicked"
+                    HorizontalOptions="Fill"
+                    BackgroundColor="Transparent"
+                    TextColor="Gray"
+                    BorderColor="Transparent"
+                    FontAttributes="Italic"
+                    HeightRequest="40" />
+        </StackLayout>
     </Grid>
 </ContentPage>

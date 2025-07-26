@@ -146,7 +146,10 @@ namespace MauiApp1
                 await DisplayAlert("Détails livraison", details, "OK");
 
                 Console.WriteLine("[DEBUG] Fin ProcessScannedCode, navigation vers ..");
-                await Shell.Current.GoToAsync("..");
+                await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
+                {
+                    { "Livraison", livraison }
+                });
             }
             catch (Exception ex)
             {

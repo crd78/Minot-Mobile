@@ -29,7 +29,14 @@ namespace MinotMobile.Services
         // GET : récupère et désérialise la réponse
         public async Task<T?> GetAsync<T>(string endpoint)
         {
-            return await _client.GetFromJsonAsync<T>(endpoint);
+            var response = await _client.GetAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+                return default;
+
+            var json = await response.Content.ReadAsStringAsync();
+            LastJsonRecu = json; // <-- Stocke le JSON ici
+
+            return JsonSerializer.Deserialize<T>(json);
         }
 
         // POST : envoie un objet et récupère la réponse désérialisée avec logs

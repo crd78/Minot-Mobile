@@ -47,23 +47,20 @@ namespace MauiApp1
             IsRefreshing = true;
             try
             {
-                // Récupérer le token et configurer le header d'autorisation
                 var token = await SecureStorage.GetAsync("auth_token");
                 if (string.IsNullOrEmpty(token))
                 {
-                    // Gérer le cas où le token n'est pas trouvé (ex: redirection vers la page de connexion)
                     await DisplayAlert("Erreur", "Session expirée. Veuillez vous reconnecter.", "OK");
-                    await Shell.Current.GoToAsync("///Connexion"); // Redirige vers la page de connexion
+                    await Shell.Current.GoToAsync("///Connexion");
                     return;
                 }
                 _httpClientService.SetAuthorizationHeader(token);
 
-                // Utiliser HttpClientService pour appeler l'API
                 var livraisons = await _httpClientService.GetAsync<List<Livraison>>("api/livraisons");
                 if (livraisons != null)
                 {
                     Livraisons.Clear();
-                    foreach (var livraison in livraisons)
+                    foreach (var livraison in livraisons.Where(l => l.Statut == "LIVREE"))
                     {
                         Livraisons.Add(livraison);
                     }

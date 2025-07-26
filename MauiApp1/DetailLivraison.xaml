@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.DetailLivraison"
+             BackgroundColor="#FAFAFA">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#D3D3D3"
+               Padding="20,40,20,20"
+               CornerRadius="0"
+               HasShadow="True"
+               Margin="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="menu.png"
+                       HeightRequest="24"
+                       WidthRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+                <Label Grid.Column="1"
+                       Text="Minot’scan"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="Black"/>
+                <Image Grid.Column="2"
+                       Source="user.png"
+                       HeightRequest="24"
+                       WidthRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Grid>
+        </Frame>
+
+        <!-- Contenu principal -->
+        <ScrollView Grid.Row="1" Padding="0,20,0,0">
+            <StackLayout Padding="20" Spacing="18">
+                <Label Text="Détails de la livraison"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+
+                <!-- Adresse (à adapter selon ton modèle) -->
+                <Label Text="{Binding Livraison.Commande.Client.Nom, StringFormat='Nom : {0}'}" FontSize="18" TextColor="Black"/>
+                <Label Text="{Binding Livraison.Commande.Client.Prenom, StringFormat='Prénom : {0}'}" FontSize="18" TextColor="Black"/>
+                <Label Text="{Binding Livraison.Commande.Client.Adresse, StringFormat='Adresse : {0}'}" FontSize="18" TextColor="Black"/>
+
+                <!-- Date prévue -->
+                <Label Text="{Binding Livraison.DatePrevue, StringFormat='Date prévue : {0:dd/MM/yyyy}'}" FontSize="16" TextColor="Black"/>
+
+                <!-- Statut -->
+                <Label Text="{Binding Livraison.Statut, StringFormat='Statut : {0}'}" FontSize="16" TextColor="Black"/>
+
+                <!-- Contenu de la livraison -->
+                <Label Text="Contenu de la livraison :" FontSize="20" FontAttributes="Bold" TextColor="Black" Margin="0,10,0,0"/>
+                <CollectionView ItemsSource="{Binding Livraison.Commande.Produits}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="0,0,0,8" Orientation="Horizontal" Spacing="10">
+                                <Label Text="{Binding Produit.NomProduit}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="{Binding Quantite, StringFormat='x{0}'}" FontSize="16" TextColor="Gray"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Remarques (à adapter selon ton modèle, ici exemple avec Commentaire) -->
+                <Label Text="Remarques :" FontSize="16" FontAttributes="Bold" TextColor="Black" Margin="0,10,0,0"/>
+                <Label Text="{Binding Livraison.Commentaire}" FontSize="13" TextColor="Black"/>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Boutons d'action -->
+        <Grid Grid.Row="2" Padding="20,0,20,20" ColumnDefinitions="*,*" VerticalOptions="End">
+            <Button Text="Remarque"
+                    BackgroundColor="#D3D3D3"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="48"
+                    CornerRadius="6"
+                    Margin="0,0,10,0"
+                    Command="{Binding RemarqueCommand}"/>
+            <Button Text="Commencer livraison"
+                    BackgroundColor="#D3D3D3"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HeightRequest="48"
+                    CornerRadius="6"
+                    Margin="10,0,0,0"
+                    Command="{Binding CommencerLivraisonCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>
