@@ -68,5 +68,14 @@ namespace MinotMobile.Services
             var response = await _client.PostAsJsonAsync(endpoint, data);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<TResponse?> PutAsync<TResponse>(string endpoint, object data)
+        {
+            var response = await _client.PutAsJsonAsync(endpoint, data);
+            var json = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonSerializer.Deserialize<TResponse>(json);
+            return default;
+        }
     }
 }

@@ -74,7 +74,7 @@ namespace MauiApp1
                 ResultFrame.IsVisible = true;
                 ValidateButton.IsEnabled = true;
 
-                await DisplayAlert("Code détecté", $"Code scanné : {result}", "OK");
+              
             });
         }
 
@@ -102,7 +102,7 @@ namespace MauiApp1
                 if (result)
                 {
                     await ProcessScannedCode(_scannedCode);
-                    await DisplayAlert("berk", "Code validé avec succès !", "OK");
+                    
                 }
                 else {                    await DisplayAlert("Annulé", "Validation annulée.", "OK"); }
             }
@@ -129,7 +129,7 @@ namespace MauiApp1
                 var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}");
 
                 // Affiche le JSON brut reçu
-                await DisplayAlert("Debug", $"Réponse JSON brute : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}", "OK");
+             
                 Console.WriteLine($"[DEBUG] JSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
 
                 if (livraison == null)
@@ -143,9 +143,10 @@ namespace MauiApp1
                                  $"Statut : {livraison.StatutText}\n" +
                                  $"Entreprise : {livraison.NomEntreprise}\n" +
                                  $"Date prévue : {livraison.DatePrevue:dd/MM/yyyy}";
-                await DisplayAlert("Détails livraison", details, "OK");
+             
 
                 Console.WriteLine("[DEBUG] Fin ProcessScannedCode, navigation vers ..");
+                // Ici tu navigues vers la page de détail avec l'objet livraison
                 await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
                 {
                     { "Livraison", livraison }

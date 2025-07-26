@@ -48,7 +48,7 @@
                        TextColor="Black"/>
 
                 <!-- Adresse (à adapter selon ton modèle) -->
-                <Label Text="{Binding Livraison.Commande.Client.Nom, StringFormat='Nom : {0}'}" FontSize="18" TextColor="Black"/>
+                <Label Text="{Binding Livraison.Commande.Client.Nom}" FontSize="18" TextColor="Black"/>
                 <Label Text="{Binding Livraison.Commande.Client.Prenom, StringFormat='Prénom : {0}'}" FontSize="18" TextColor="Black"/>
                 <Label Text="{Binding Livraison.Commande.Client.Adresse, StringFormat='Adresse : {0}'}" FontSize="18" TextColor="Black"/>
 
@@ -78,6 +78,17 @@
         </ScrollView>
 
         <!-- Boutons d'action -->
+        <Button Text="Itinéraire GPS"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontAttributes="Bold"
+                HeightRequest="48"
+                CornerRadius="6"
+                Margin="20,0,20,10"
+                Clicked="OnItineraireClicked"
+                Grid.Row="2"
+                HorizontalOptions="Fill"/>
+
         <Grid Grid.Row="2" Padding="20,0,20,20" ColumnDefinitions="*,*" VerticalOptions="End">
             <Button Text="Remarque"
                     BackgroundColor="#D3D3D3"
@@ -87,6 +98,8 @@
                     CornerRadius="6"
                     Margin="0,0,10,0"
                     Command="{Binding RemarqueCommand}"/>
+
+            <!-- Bouton Commencer livraison : visible si statut != EN_COURS -->
             <Button Text="Commencer livraison"
                     BackgroundColor="#D3D3D3"
                     TextColor="Black"
@@ -94,7 +107,19 @@
                     HeightRequest="48"
                     CornerRadius="6"
                     Margin="10,0,0,0"
-                    Command="{Binding CommencerLivraisonCommand}"/>
+                    IsVisible="{Binding Livraison.Statut, Converter={StaticResource StatutNotEnCoursConverter}}"
+                    Clicked="OnCommencerLivraisonClicked"/>
+
+            <!-- Bouton Terminer livraison : visible si statut == EN_COURS -->
+            <Button Text="Terminer la livraison"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    HeightRequest="48"
+                    CornerRadius="6"
+                    Margin="10,0,0,0"
+                    IsVisible="{Binding PeutTerminer}"
+                    Clicked="OnLivrerClicked"/>
         </Grid>
     </Grid>
 </ContentPage>

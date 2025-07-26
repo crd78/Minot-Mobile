@@ -4,109 +4,120 @@
              x:Class="MauiApp1.Connexion"
              BackgroundColor="White">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
-
-            <!-- Image circulaire -->
-            <Frame
-                WidthRequest="180"
-                HeightRequest="180"
-                CornerRadius="90"
-                IsClippedToBounds="True"
-                Padding="0"
-                HasShadow="False"
-                HorizontalOptions="Center">
-                <Image Source="avatar.png"
-                       Aspect="AspectFill"
-                       WidthRequest="180"
-                       HeightRequest="180"/>
-                
-            </Frame>
-
-            <!-- Titre -->
-            <Label
-                Text="Minot’scan"
-                FontSize="36"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                TextColor="Black"
-                Margin="0,10,0,0"/>
-
-            <!-- Champ email -->
-            <Grid
-                BackgroundColor="#E6E0EB"
-                HeightRequest="55"
-                Padding="15,0"
-                ColumnDefinitions="*,Auto"
-                Margin="0,20,0,0"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand">
-                <Entry
-                    x:Name="EmailEntry"
-                    Placeholder="email"
-                    BackgroundColor="Transparent"
-                    FontSize="16"
-                    TextColor="Black"
-                    VerticalOptions="Center"/>
-                <ImageButton
-                    Source="close_icon.png"
-                    BackgroundColor="Transparent"
-                    WidthRequest="24"
-                    HeightRequest="24"
+    <Grid>
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <VerticalStackLayout
+                    Padding="30,0"
+                    Spacing="25"
                     VerticalOptions="Center"
-                    Clicked="OnClearEmailClicked"/>
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="0"
+                    Grid.Column="0">
+
+                    <!-- Image circulaire -->
+                    <Frame
+                        WidthRequest="180"
+                        HeightRequest="180"
+                        CornerRadius="90"
+                        IsClippedToBounds="True"
+                        Padding="0"
+                        HasShadow="False"
+                        HorizontalOptions="Center">
+                        <Image Source="avatar.png"
+                               Aspect="AspectFill"
+                               WidthRequest="180"
+                               HeightRequest="180"/>
+                    </Frame>
+
+                    <!-- Titre -->
+                    <Label
+                        Text="Minot’scan"
+                        FontSize="36"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black"
+                        Margin="0,10,0,0"/>
+
+                    <!-- Champ email -->
+                    <Grid
+                        BackgroundColor="#E6E0EB"
+                        HeightRequest="55"
+                        Padding="15,0"
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,20,0,0"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand">
+                        <Entry
+                            x:Name="EmailEntry"
+                            Placeholder="email"
+                            BackgroundColor="Transparent"
+                            FontSize="16"
+                            TextColor="Black"
+                            VerticalOptions="Center"/>
+                        <ImageButton
+                            Source="close_icon.png"
+                            BackgroundColor="Transparent"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"
+                            Clicked="OnClearEmailClicked"/>
+                    </Grid>
+
+                    <!-- Champ mot de passe -->
+                    <Grid
+                        BackgroundColor="#E6E0EB"
+                        HeightRequest="55"
+                        Padding="15,0"
+                        ColumnDefinitions="*,Auto"
+                        Margin="0,0,0,0"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand">
+                        <Entry
+                            x:Name="PasswordEntry"
+                            Placeholder="mot de passe"
+                            IsPassword="True"
+                            BackgroundColor="Transparent"
+                            FontSize="16"
+                            TextColor="Black"
+                            VerticalOptions="Center"/>
+                        <ImageButton
+                            Source="close_icon.png"
+                            BackgroundColor="Transparent"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"
+                            Clicked="OnClearPasswordClicked"/>
+                    </Grid>
+
+                    <!-- Bouton Se Connecter -->
+                    <Button
+                        Text="Se Connecter"
+                        Clicked="OnLoginClicked"
+                        BackgroundColor="#63518A"
+                        TextColor="White"
+                        CornerRadius="28"
+                        WidthRequest="200"
+                        HeightRequest="56"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Margin="0,30,0,0"/>
+
+                    <!-- Mot de passe oublié -->
+                    <Label
+                        Text="Mot de passe oublié ?"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black"
+                        Margin="0,10,0,0"/>
+                </VerticalStackLayout>
             </Grid>
-
-            <!-- Champ mot de passe -->
-            <Grid
-                BackgroundColor="#E6E0EB"
-                HeightRequest="55"
-                Padding="15,0"
-                ColumnDefinitions="*,Auto"
-                Margin="0,0,0,0"
-                VerticalOptions="Center"
-                HorizontalOptions="FillAndExpand">
-                <Entry
-                    x:Name="PasswordEntry"
-                    Placeholder="mot de passe"
-                    IsPassword="True"
-                    BackgroundColor="Transparent"
-                    FontSize="16"
-                    TextColor="Black"
-                    VerticalOptions="Center"/>
-                <ImageButton
-                    Source="close_icon.png"
-                    BackgroundColor="Transparent"
-                    WidthRequest="24"
-                    HeightRequest="24"
-                    VerticalOptions="Center"
-                    Clicked="OnClearPasswordClicked"/>
-            </Grid>
-
-            <!-- Bouton Se Connecter -->
-            <Button
-                Text="Se Connecter"
-                Clicked="OnLoginClicked"
-                BackgroundColor="#63518A"
-                TextColor="White"
-                CornerRadius="28"
-                WidthRequest="200"
-                HeightRequest="56"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"
-                Margin="0,30,0,0"/>
-
-            <!-- Mot de passe oublié -->
-            <Label
-                Text="Mot de passe oublié ?"
-                FontSize="16"
-                HorizontalTextAlignment="Center"
-                TextColor="Black"
-                Margin="0,10,0,0"/>
-        </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>
