@@ -1,161 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              x:Class="MauiApp1.NouvelleLivraison"
-             BackgroundColor="#F8F9FA">
-
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
-        <!-- Header -->
-        <Frame Grid.Row="0" 
-               BackgroundColor="#63518A" 
-               Padding="20,40,20,20" 
-               CornerRadius="0"
-               HasShadow="True"
-               Margin="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="40"/>
-                </Grid.ColumnDefinitions>
-
-                <ImageButton Source="back_arrow.png" 
-                           HeightRequest="24" 
-                           WidthRequest="24" 
-                           BackgroundColor="Transparent"
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center"
-                           Clicked="OnBackClicked"/>
-
-                <Label Grid.Column="1" 
-                       Text="Minot'Scan" 
-                       FontSize="22" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" 
-                       TextColor="White"/>
-
-                <Image Grid.Column="2"
-                       Source="user.png" 
-                       HeightRequest="24" 
-                       WidthRequest="24" 
-                       VerticalOptions="Center" 
-                       HorizontalOptions="Center"/>
-            </Grid>
-        </Frame>
-
-        <!-- Zone de scan avec caméra -->
-        <Grid Grid.Row="1" Padding="20" VerticalOptions="FillAndExpand">
-            <VerticalStackLayout Spacing="30" VerticalOptions="Center">
-
-                <!-- Zone caméra avec cadre -->
-                <Frame BackgroundColor="Black"
-                       CornerRadius="15"
-                       HasShadow="True"
-                       Padding="0"
-                       HeightRequest="320"
-                       WidthRequest="320"
-                       HorizontalOptions="Center">
-
-                    <!-- Caméra de scan -->
-                    <zxing:CameraBarcodeReaderView x:Name="barcodeReader"
-                                                 BarcodesDetected="OnBarcodesDetected"
-                                                 HorizontalOptions="FillAndExpand"
-                                                 VerticalOptions="FillAndExpand" />
-
-                    <!-- Overlay avec cadre de visée -->
-                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                        <Frame BackgroundColor="Transparent"
-                               BorderColor="White"
-                               CornerRadius="10"
-                               HeightRequest="200"
-                               WidthRequest="200"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               HasShadow="False">
-                            <Grid>
-                                <!-- Coins du cadre de visée -->
-                                <Label Text="┌" 
-                                       FontSize="30" 
-                                       TextColor="White" 
-                                       HorizontalOptions="Start" 
-                                       VerticalOptions="Start"/>
-                                <Label Text="┐" 
-                                       FontSize="30" 
-                                       TextColor="White" 
-                                       HorizontalOptions="End" 
-                                       VerticalOptions="Start"/>
-                                <Label Text="└" 
-                                       FontSize="30" 
-                                       TextColor="White" 
-                                       HorizontalOptions="Start" 
-                                       VerticalOptions="End"/>
-                                <Label Text="┘" 
-                                       FontSize="30" 
-                                       TextColor="White" 
-                                       HorizontalOptions="End" 
-                                       VerticalOptions="End"/>
-                            </Grid>
-                        </Frame>
-                    </Grid>
-                </Frame>
-
-                <!-- Instructions -->
-                <Label Text="Assurez-vous que le QR code soit dans le champ et bien visible."
-                       FontSize="16"
-                       TextColor="#2C3E50"
-                       HorizontalTextAlignment="Center"
-                       HorizontalOptions="Center"
-                       Margin="20,0"/>
-
-                <!-- Résultat du scan -->
-                <Frame x:Name="ResultFrame"
-                       BackgroundColor="White"
-                       CornerRadius="10"
-                       Padding="15"
-                       IsVisible="False"
-                       HasShadow="True">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="Code scanné :"
-                               FontSize="14"
-                               FontAttributes="Bold"
-                               TextColor="#63518A"/>
-                        <Label x:Name="ResultLabel"
-                               FontSize="14"
-                               TextColor="#2C3E50"
-                               HorizontalTextAlignment="Center"/>
-                    </VerticalStackLayout>
-                </Frame>
-            </VerticalStackLayout>
-        </Grid>
-
-        <!-- Boutons d'action -->
-        <StackLayout Grid.Row="2" 
-                     Orientation="Horizontal" 
-                     Spacing="15" 
-                     Padding="20"
-                     HorizontalOptions="Center">
-
-            <Button Text="Recommencer"
-                    BackgroundColor="#95A5A6"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="25"
-                    HeightRequest="50"
-                    WidthRequest="140"
-                    Clicked="OnRestartClicked"/>
-
-            <Button Text="Valider"
-                    BackgroundColor="#63518A"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="25"
-                    HeightRequest="50"
-                    WidthRequest="140"
-                    Clicked="OnValidateClicked"
-                    IsEnabled="False"
-                    x:Name="ValidateButton"/>
+             Title="Nouvelle Livraison">
+    <Grid>
+        <!-- Overlay principal -->
+        <StackLayout x:Name="MainContent" Padding="20" Spacing="15" VerticalOptions="Center">
+            <Label Text="Résultat du Scan" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Frame x:Name="ResultFrame" IsVisible="False" Padding="15" CornerRadius="10" BorderColor="LightGray" HasShadow="True">
+                <Label x:Name="ResultLabel" FontSize="16" HorizontalOptions="Center" />
+            </Frame>
+            <Button x:Name="ValidateButton" Text="Valider le code" IsEnabled="False" Clicked="OnValidateClicked" HorizontalOptions="Fill" />
+            <Button x:Name="RestartButton" Text="Recommencer le scan" Clicked="OnRestartClicked" HorizontalOptions="Fill" />
+            <Button x:Name="BackButton" Text="Retour" Clicked="OnBackClicked" HorizontalOptions="Fill" BackgroundColor="Transparent" TextColor="Gray" BorderColor="Transparent"/>
         </StackLayout>
+
+        <!-- Caméra dans un carré centré -->
+        <zxing:CameraBarcodeReaderView
+            x:Name="cameraView"
+            IsVisible="True"
+            BarcodesDetected="OnBarcodesDetected"
+            WidthRequest="300"
+            HeightRequest="300"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            BackgroundColor="Black" />
     </Grid>
 </ContentPage>
