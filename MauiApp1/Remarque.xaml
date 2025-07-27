@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Remarque"
+             BackgroundColor="#F6F5FA">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="0">
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#F5F0FA"
+               Padding="20,40,20,20"
+               CornerRadius="0"
+               HasShadow="True"
+               Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="menu.png"
+                       HeightRequest="24"
+                       WidthRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+                <Label Grid.Column="1"
+                       Text="Minot'Scan"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="#3D2C8D"/>
+                <Image Grid.Column="2"
+                       Source="user.png"
+                       HeightRequest="24"
+                       WidthRequest="24"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Grid>
+        </Frame>
+
+        <!-- Titre -->
+        <Label Grid.Row="1"
+               Text="Ajouter une remarque"
+               FontSize="20"
+               FontAttributes="Bold"
+               Margin="24,12,24,0"
+               TextColor="#3D2C8D"/>
+
+        <!-- Zone de saisie améliorée -->
+        <StackLayout Grid.Row="2"
+                     Padding="24,16,24,0"
+                     Spacing="18"
+                     HorizontalOptions="Fill">
+            <Frame BackgroundColor="#ECECEC"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="10"
+                   BorderColor="#BDBDBD"
+                   HeightRequest="180"
+                   VerticalOptions="Start">
+                <Editor x:Name="RemarqueEditor"
+                        Placeholder="Votre remarque..."
+                        BackgroundColor="Transparent"
+                        TextColor="#222"
+                        FontSize="16"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill"/>
+            </Frame>
+        </StackLayout>
+
+        <!-- Bouton Ajouter amélioré -->
+        <Button Grid.Row="3"
+            Text="+ Ajouter la remarque"
+            BackgroundColor="#7C6AEF"
+            TextColor="White"
+            FontAttributes="Bold"
+            HeightRequest="44"
+            CornerRadius="22"
+            Margin="40,20,40,0"
+            Clicked="OnAjouterRemarqueClicked"
+            HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>

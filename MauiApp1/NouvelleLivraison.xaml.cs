@@ -74,7 +74,7 @@ namespace MauiApp1
                 ResultFrame.IsVisible = true;
                 ValidateButton.IsEnabled = true;
 
-                await DisplayAlert("Code détecté", $"Code scanné : {result}", "OK");
+              
             });
         }
 
@@ -102,7 +102,7 @@ namespace MauiApp1
                 if (result)
                 {
                     await ProcessScannedCode(_scannedCode);
-                    await DisplayAlert("berk", "Code validé avec succès !", "OK");
+                    
                 }
                 else {                    await DisplayAlert("Annulé", "Validation annulée.", "OK"); }
             }
@@ -128,8 +128,6 @@ namespace MauiApp1
                 Console.WriteLine($"[DEBUG] Appel API GET /api/livraisons/{code}");
                 var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}");
 
-                // Affiche le JSON brut reçu
-                await DisplayAlert("Debug", $"Réponse JSON brute : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}", "OK");
                 Console.WriteLine($"[DEBUG] JSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
 
                 if (livraison == null)
@@ -139,17 +137,27 @@ namespace MauiApp1
                     return;
                 }
 
-                string details = $"Livraison #{livraison.IdLivraison}\n" +
-                                 $"Statut : {livraison.StatutText}\n" +
-                                 $"Entreprise : {livraison.NomEntreprise}\n" +
-                                 $"Date prévue : {livraison.DatePrevue:dd/MM/yyyy}";
-                await DisplayAlert("Détails livraison", details, "OK");
-
-                Console.WriteLine("[DEBUG] Fin ProcessScannedCode, navigation vers ..");
-                await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
+                // Met à jour le statut en base
+                var payload = new Dictionary<string, object>
                 {
-                    { "Livraison", livraison }
-                });
+                    { "Statut", "EN_COURS" }
+                };
+                var updateResponse = await httpClient.PutAsync<Livraison>($"api/livraisons/{livraison.IdLivraison}", payload);
+                Console.WriteLine($"[DEBUG] Réponse PUT : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
+                if (updateResponse != null)
+                {
+                    livraison.Statut = updateResponse.Statut;
+                }
+                else
+                {
+                    await DisplayAlert("Attention", "Impossible de passer la livraison à EN_COURS.", "OK");
+                }
+
+                // Navigation vers la page de détail
+                await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
+        {
+            { "Livraison", livraison }
+        });
             }
             catch (Exception ex)
             {

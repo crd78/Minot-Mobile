@@ -9,6 +9,7 @@
             Routing.RegisterRoute("listLivraison", typeof(ListLivraison));
             Routing.RegisterRoute("nouvelleLivraison", typeof(NouvelleLivraison));
             Routing.RegisterRoute("detailLivraison", typeof(DetailLivraison));
+            Routing.RegisterRoute("remarque", typeof(Remarque));
         }
     }
 }

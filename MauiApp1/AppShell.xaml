@@ -11,4 +11,9 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    <!-- Ajout de la route pour la page Remarque -->
+    <ShellContent
+        Title="Remarque"
+        ContentTemplate="{DataTemplate local:Remarque}"
+        Route="remarque" />
 </Shell>

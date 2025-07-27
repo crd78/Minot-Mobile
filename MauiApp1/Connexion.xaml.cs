@@ -52,7 +52,7 @@ namespace MauiApp1
 
                     await SecureStorage.SetAsync("auth_token", response.Access);
 
-                    await Application.Current.MainPage.DisplayAlert("Succès", "Connexion réussie", "OK");
+                  
                     await Shell.Current.GoToAsync("listLivraison");
                 }
                 else
