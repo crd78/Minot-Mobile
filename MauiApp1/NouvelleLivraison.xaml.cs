@@ -128,8 +128,6 @@ namespace MauiApp1
                 Console.WriteLine($"[DEBUG] Appel API GET /api/livraisons/{code}");
                 var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}");
 
-                // Affiche le JSON brut reçu
-             
                 Console.WriteLine($"[DEBUG] JSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
 
                 if (livraison == null)
@@ -139,18 +137,27 @@ namespace MauiApp1
                     return;
                 }
 
-                string details = $"Livraison #{livraison.IdLivraison}\n" +
-                                 $"Statut : {livraison.StatutText}\n" +
-                                 $"Entreprise : {livraison.NomEntreprise}\n" +
-                                 $"Date prévue : {livraison.DatePrevue:dd/MM/yyyy}";
-             
-
-                Console.WriteLine("[DEBUG] Fin ProcessScannedCode, navigation vers ..");
-                // Ici tu navigues vers la page de détail avec l'objet livraison
-                await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
+                // Met à jour le statut en base
+                var payload = new Dictionary<string, object>
                 {
-                    { "Livraison", livraison }
-                });
+                    { "Statut", "EN_COURS" }
+                };
+                var updateResponse = await httpClient.PutAsync<Livraison>($"api/livraisons/{livraison.IdLivraison}", payload);
+                Console.WriteLine($"[DEBUG] Réponse PUT : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
+                if (updateResponse != null)
+                {
+                    livraison.Statut = updateResponse.Statut;
+                }
+                else
+                {
+                    await DisplayAlert("Attention", "Impossible de passer la livraison à EN_COURS.", "OK");
+                }
+
+                // Navigation vers la page de détail
+                await Shell.Current.GoToAsync("detailLivraison", new Dictionary<string, object>
+        {
+            { "Livraison", livraison }
+        });
             }
             catch (Exception ex)
             {

@@ -71,6 +71,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Remarque.xaml.cs">
+	    <DependentUpon>Remarque.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="DetailLivraison.xaml.cs">
 	    <DependentUpon>DetailLivraison.xaml</DependentUpon>
 	  </Compile>
@@ -80,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Remarque.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="DetailLivraison.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

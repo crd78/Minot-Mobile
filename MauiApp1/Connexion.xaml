@@ -109,13 +109,7 @@
                         HorizontalOptions="Center"
                         Margin="0,30,0,0"/>
 
-                    <!-- Mot de passe oublié -->
-                    <Label
-                        Text="Mot de passe oublié ?"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        TextColor="Black"
-                        Margin="0,10,0,0"/>
+                  
                 </VerticalStackLayout>
             </Grid>
         </ScrollView>
