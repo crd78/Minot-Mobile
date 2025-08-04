@@ -126,7 +126,7 @@ namespace MauiApp1
                 httpClient.SetAuthorizationHeader(token);
 
                 Console.WriteLine($"[DEBUG] Appel API GET /api/livraisons/{code}");
-                var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}");
+                var livraison = await httpClient.GetAsync<Livraison>($"api/livraisons/{code}/enriched");
 
                 Console.WriteLine($"[DEBUG] JSON reçu : {MinotMobile.Services.HttpClientService.LastJsonRecu ?? "null"}");
 

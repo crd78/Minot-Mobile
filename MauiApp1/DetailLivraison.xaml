@@ -1,143 +1,198 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.DetailLivraison"
-             BackgroundColor="#F6F5FA">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiApp1.DetailLivraison"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#F6F5FA">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
-        <!-- Header -->
-        <Frame Grid.Row="0"
-               BackgroundColor="#EDEDED"
-               Padding="20,40,20,20"
-               CornerRadius="0"
-               HasShadow="True"
-               Margin="0,0,0,8">
+    <Grid Padding="0" RowDefinitions="Auto,*,Auto">
+        <!--  Header  -->
+        <Frame
+            Grid.Row="0"
+            Margin="0,0,0,8"
+            Padding="20,40,20,20"
+            BackgroundColor="#EDEDED"
+            CornerRadius="0"
+            HasShadow="True">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
-                <Image Source="menu.png"
-                       HeightRequest="24"
-                       WidthRequest="24"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"/>
-                <Label Grid.Column="1"
-                       Text="Minot'Scan"
-                       FontSize="22"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="#3D2C8D"/>
-                <Image Grid.Column="2"
-                       Source="user.png"
-                       HeightRequest="24"
-                       WidthRequest="24"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"/>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="menu.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+                <Label
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    HorizontalOptions="Center"
+                    Text="Minot'Scan"
+                    TextColor="#3D2C8D"
+                    VerticalOptions="Center" />
+                <Image
+                    Grid.Column="2"
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="user.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
             </Grid>
         </Frame>
 
-        <!-- Contenu principal -->
+        <!--  Contenu principal  -->
         <ScrollView Grid.Row="1" Padding="0,20,0,0">
             <StackLayout Padding="20" Spacing="18">
-                <Label Text="Détails de la livraison"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="#3D2C8D"/>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="Détails de la livraison"
+                    TextColor="#3D2C8D" />
 
-                <!-- Adresse -->
-                <Frame BackgroundColor="#FFFFFF"
-                       CornerRadius="12"
-                       Padding="16"
-                       HasShadow="True"
-                       Margin="0,10,0,0">
+                <!--  Adresse  -->
+                <Frame
+                    Margin="0,10,0,0"
+                    Padding="16"
+                    BackgroundColor="#FFFFFF"
+                    CornerRadius="12"
+                    HasShadow="True">
                     <StackLayout Spacing="8">
-                        <Label Text="{Binding Livraison.Commande.Client.Nom}" FontSize="18" TextColor="#222"/>
-                        <Label Text="{Binding Livraison.Commande.Client.Prenom, StringFormat='Prénom : {0}'}" FontSize="18" TextColor="#222"/>
-                        <Label Text="{Binding Livraison.Commande.Client.Adresse, StringFormat='Adresse : {0}'}" FontSize="18" TextColor="#222"/>
+                        <Label
+                            FontSize="18"
+                            Text="{Binding Livraison.Commande.Client.Nom}"
+                            TextColor="#222" />
+                        <Label
+                            FontSize="18"
+                            Text="{Binding Livraison.Commande.Client.Prenom, StringFormat='Prénom : {0}'}"
+                            TextColor="#222" />
+                        <Label
+                            FontSize="18"
+                            Text="{Binding Livraison.Commande.Client.Adresse, StringFormat='Adresse : {0}'}"
+                            TextColor="#222" />
                     </StackLayout>
                 </Frame>
 
-                <!-- Date prévue -->
-                <Frame BackgroundColor="#FFFFFF"
-                       CornerRadius="12"
-                       Padding="16"
-                       HasShadow="True"
-                       Margin="0,10,0,0">
-                    <Label Text="{Binding Livraison.DatePrevue, StringFormat='Date prévue : {0:dd/MM/yyyy}'}" FontSize="16" TextColor="#222"/>
+                <!--  Date prévue  -->
+                <Frame
+                    Margin="0,10,0,0"
+                    Padding="16"
+                    BackgroundColor="#FFFFFF"
+                    CornerRadius="12"
+                    HasShadow="True">
+                    <Label
+                        FontSize="16"
+                        Text="{Binding Livraison.DatePrevue, StringFormat='Date prévue : {0:dd/MM/yyyy}'}"
+                        TextColor="#222" />
                 </Frame>
 
-                <!-- Statut -->
-                <Frame BackgroundColor="#FFFFFF"
-                       CornerRadius="12"
-                       Padding="16"
-                       HasShadow="True"
-                       Margin="0,10,0,0">
-                    <Label Text="{Binding Livraison.Statut, StringFormat='Statut : {0}'}" FontSize="16" TextColor="#222"/>
+                <!--  Statut  -->
+                <Frame
+                    Margin="0,10,0,0"
+                    Padding="16"
+                    BackgroundColor="#FFFFFF"
+                    CornerRadius="12"
+                    HasShadow="True">
+                    <Label
+                        FontSize="16"
+                        Text="{Binding Livraison.Statut, StringFormat='Statut : {0}'}"
+                        TextColor="#222" />
                 </Frame>
 
-                <!-- Contenu de la livraison -->
-                <Label Text="Contenu de la livraison :" FontSize="20" FontAttributes="Bold" TextColor="#3D2C8D" Margin="0,10,0,0"/>
+                <!--  Contenu de la livraison  -->
+                <Label
+                    Margin="0,10,0,0"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Contenu de la livraison :"
+                    TextColor="#3D2C8D" />
                 <CollectionView ItemsSource="{Binding Livraison.Commande.Produits}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="0,0,0,8" Orientation="Horizontal" Spacing="10">
-                                <Label Text="{Binding Produit.NomProduit}" FontSize="16" FontAttributes="Bold" TextColor="#222"/>
-                                <Label Text="{Binding Quantite, StringFormat='x{0}'}" FontSize="16" TextColor="#888"/>
+                            <StackLayout
+                                Padding="0,0,0,8"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="{Binding Produit.NomProduit}"
+                                    TextColor="#222" />
+                                <Label
+                                    FontSize="16"
+                                    Text="{Binding Quantite, StringFormat='x{0}'}"
+                                    TextColor="#888" />
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <!-- Remarques -->
-                <Label Text="Remarques :" FontSize="16" FontAttributes="Bold" TextColor="#3D2C8D" Margin="0,10,0,0"/>
-                <Frame BackgroundColor="#FFFFFF"
-                       CornerRadius="12"
-                       Padding="16"
-                       HasShadow="True"
-                       Margin="0,10,0,0">
-                    <Label Text="{Binding Livraison.Commentaire}" FontSize="13" TextColor="#222"/>
+                <!--  Remarques  -->
+                <Label
+                    Margin="0,10,0,0"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="Remarques :"
+                    TextColor="#3D2C8D" />
+                <Frame
+                    Margin="0,10,0,0"
+                    Padding="16"
+                    BackgroundColor="#FFFFFF"
+                    CornerRadius="12"
+                    HasShadow="True">
+                    <Label
+                        FontSize="13"
+                        Text="{Binding Livraison.Commentaire}"
+                        TextColor="#222" />
                 </Frame>
             </StackLayout>
         </ScrollView>
 
-        <!-- Boutons d'action -->
-        <Grid Grid.Row="2" Padding="20,0,20,20" ColumnDefinitions="*,*,*" VerticalOptions="End">
-            <!-- Bouton Itinéraire GPS -->
-            <Button Grid.Column="0"
-                    Text="Itinéraire GPS"
-                    BackgroundColor="#4CAF50"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    HeightRequest="48"
-                    CornerRadius="24"
-                    Margin="0,0,10,0"
-                    Clicked="OnItineraireClicked"/>
+        <!--  Boutons d'action  -->
+        <Grid
+            Grid.Row="2"
+            Padding="20,0,20,20"
+            ColumnDefinitions="*,*,*"
+            VerticalOptions="End">
+            <!--  Bouton Itinéraire GPS  -->
+            <Button
+                Grid.Column="0"
+                Margin="0,0,10,0"
+                BackgroundColor="#4CAF50"
+                Clicked="OnItineraireClicked"
+                CornerRadius="24"
+                FontAttributes="Bold"
+                HeightRequest="48"
+                Text="Itinéraire GPS"
+                TextColor="White" />
 
-            <!-- Bouton Remarque -->
-            <Button Grid.Column="1"
-                    Text="Remarque"
-                    BackgroundColor="#7C6AEF"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    HeightRequest="48"
-                    CornerRadius="24"
-                    Margin="10,0,10,0"
-                    Clicked="OnRemarqueClicked"/>
+            <!--  Bouton Remarque  -->
+            <Button
+                Grid.Column="1"
+                Margin="10,0,10,0"
+                BackgroundColor="#7C6AEF"
+                Clicked="OnRemarqueClicked"
+                CornerRadius="24"
+                FontAttributes="Bold"
+                HeightRequest="48"
+                Text="Remarque"
+                TextColor="White" />
 
-            <!-- Bouton Terminer la livraison -->
-            <Button Grid.Column="2"
-                    Text="Terminer la livraison"
-                    BackgroundColor="#FF5722"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    HeightRequest="48"
-                    CornerRadius="24"
-                    Margin="10,0,0,0"
-                    IsVisible="{Binding PeutTerminer}"
-                    Clicked="OnLivrerClicked"/>
+            <!--  Bouton Terminer la livraison  -->
+            <Button
+                Grid.Column="2"
+                Margin="10,0,0,0"
+                BackgroundColor="#FF5722"
+                Clicked="OnLivrerClicked"
+                CornerRadius="24"
+                FontAttributes="Bold"
+                HeightRequest="48"
+                IsVisible="{Binding PeutTerminer}"
+                Text="Terminer"
+                TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>
